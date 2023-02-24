@@ -71,3 +71,70 @@ function filterItems(e) {
   });
 }
 
+
+
+function addItem(e) {
+  e.preventDefault();
+
+  // Get input values
+  var form = document.getElementById('addForm');
+  var newItem = form.elements['item'].value;
+  var newDescription = form.elements['description'].value;
+
+  if (newItem !== '') {
+    // Create new li element
+    var li = document.createElement('li');
+    // Add class
+    li.className = 'list-group-item';
+    
+    // Create div for name and add to li
+    var nameDiv = document.createElement('div');
+    nameDiv.className = 'name';
+    nameDiv.appendChild(document.createTextNode(newItem));
+    li.appendChild(nameDiv);
+    
+    // Create div for description and add to li
+    var descDiv = document.createElement('div');
+    descDiv.className = 'description';
+    descDiv.appendChild(document.createTextNode(newDescription));
+    li.appendChild(descDiv);
+
+    // Create del button element
+    var deleteBtn = document.createElement('button');
+
+    // Add classes to del button
+    deleteBtn.className = 'btn btn-danger btn-sm float-right delete';
+
+    // Append text node
+    deleteBtn.appendChild(document.createTextNode('X'));
+
+    //Append button to li 
+    li.appendChild(deleteBtn);
+
+    // Append li to list 
+    itemList.appendChild(li);
+
+    // Clear input
+    form.elements['item'].value = '';
+    form.elements['description'].value = '';
+  }
+}
+
+
+
+function filterItems(e) {
+  // convert text to lowercase
+  var text = e.target.value.toLowerCase();
+  // Get lis
+  var items = itemList.getElementsByTagName('li');
+  // Convert to an array
+  Array.from(items).forEach(function (item) {
+    var itemName = item.querySelector('.name').textContent.toLowerCase();
+    var itemDesc = item.querySelector('.description').textContent.toLowerCase();
+    if (itemName.indexOf(text) !== -1 || itemDesc.indexOf(text) !== -1) {
+      item.style.display = 'block';
+    } else {
+      item.style.display = 'none';
+    }
+  });
+}
